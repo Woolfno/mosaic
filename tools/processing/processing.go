@@ -12,7 +12,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/Woolfno/mosaic/mosaic"
+	"github.com/Woolfno/mosaic"
 	"github.com/Woolfno/mosaic/store"
 )
 
