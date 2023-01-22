@@ -1,4 +1,4 @@
-module mosaic
+module github.com/Woolfno/mosaic
 
 go 1.19
 

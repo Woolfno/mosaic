@@ -7,12 +7,13 @@ import (
 	_ "image/png"
 	"io/fs"
 	"log"
-	"mosaic/mosaic"
-	"mosaic/store"
 	"os"
 	"path/filepath"
 	"strings"
 	"sync"
+
+	"github.com/Woolfno/mosaic/mosaic"
+	"github.com/Woolfno/mosaic/store"
 )
 
 func worker(wg *sync.WaitGroup, paths <-chan string, outDir string, results chan<- error) {

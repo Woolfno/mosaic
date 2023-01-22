@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"mosaic/wikimedia/response"
 	"net/http"
 	"os"
 	"path/filepath"
 	"sync"
 	"time"
+
+	"github.com/Woolfno/mosaic/wikimedia/response"
 )
 
 const API_URL = "https://en.wikipedia.org/api/rest_v1/"

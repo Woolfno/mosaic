@@ -7,11 +7,12 @@ import (
 	"log"
 	"math"
 	"math/big"
-	"mosaic/color"
-	"mosaic/store"
-	"mosaic/workerpool"
 	"os"
 	"sort"
+
+	"github.com/Woolfno/mosaic/color"
+	"github.com/Woolfno/mosaic/store"
+	"github.com/Woolfno/mosaic/workerpool"
 
 	"github.com/nfnt/resize"
 )
