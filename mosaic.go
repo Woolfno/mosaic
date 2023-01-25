@@ -1,6 +1,7 @@
 package mosaic
 
 import (
+	"container/heap"
 	"crypto/rand"
 	"image"
 	"image/draw"
@@ -8,9 +9,9 @@ import (
 	"math"
 	"math/big"
 	"os"
-	"sort"
 
 	"github.com/Woolfno/mosaic/color"
+	"github.com/Woolfno/mosaic/queue"
 	"github.com/Woolfno/mosaic/store"
 	"github.com/Woolfno/mosaic/workerpool"
 
@@ -164,23 +165,16 @@ func Distance(a color.Color, b color.Color) uint32 {
 // и средним цветом искомой картинки
 // random_mode - случайная из 5 подходящих
 func SimilarImage(point color.Color, store []store.Store) string {
-	distanceStore := make(map[string]uint32)
+	distanceStore := make(queue.PriorityQueue, 0, len(store))
 	randomMod := true
 	randomCount := 5
 
 	for _, rgb := range store {
 		d := Distance(point, *color.New(uint32(rgb.R), uint32(rgb.G), uint32(rgb.B)))
-		distanceStore[rgb.Path] = d
+		distanceStore.Push(queue.Item{Key: rgb.Path, Value: d})
 	}
 
-	keys := make([]string, 0, len(distanceStore))
-	for key := range distanceStore {
-		keys = append(keys, key)
-	}
-
-	sort.SliceStable(keys, func(i, j int) bool {
-		return distanceStore[keys[i]] < distanceStore[keys[j]]
-	})
+	heap.Init(&distanceStore)
 
 	n := 0
 	if randomMod {
@@ -190,7 +184,12 @@ func SimilarImage(point color.Color, store []store.Store) string {
 		}
 		n = int(r.Int64())
 	}
-	return keys[n]
+
+	item := heap.Pop(&distanceStore)
+	for ; n > 0; n-- {
+		item = heap.Pop(&distanceStore)
+	}
+	return item.(*queue.Item).Key
 }
 
 // вставка картинки
