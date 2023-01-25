@@ -171,7 +171,7 @@ func SimilarImage(point color.Color, store []store.Store) string {
 
 	for _, rgb := range store {
 		d := Distance(point, *color.New(uint32(rgb.R), uint32(rgb.G), uint32(rgb.B)))
-		distanceStore.Push(queue.Item{Key: rgb.Path, Value: d})
+		distanceStore.Push(&queue.Item{Key: rgb.Path, Value: d})
 	}
 
 	heap.Init(&distanceStore)
